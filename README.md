@@ -71,3 +71,41 @@ export default defineConfig([
   },
 ])
 ```
+
+### Web UI container (Vite + Nginx)
+
+Build and run the frontend as a separate containerized component.
+
+- Build with docker compose (recommended):
+
+```bash
+docker compose build webui
+```
+
+- Run (port 8080):
+
+```bash
+VITE_API_URL=http://localhost:5000 docker compose up -d webui
+```
+
+- Visit:
+
+```bash
+http://localhost:8080
+```
+
+- Build without compose:
+
+```bash
+docker build -t crediwise-webui:latest webui --build-arg VITE_API_URL=https://api.example.com
+```
+
+- Run without compose:
+
+```bash
+docker run --rm -p 8080:8080 --name crediwise-webui crediwise-webui:latest
+```
+
+Notes:
+- `VITE_API_URL` is a build-time value embedded into the app. Change it by rebuilding.
+- The container serves static files via Nginx and supports SPA routing with `index.html` fallback.
